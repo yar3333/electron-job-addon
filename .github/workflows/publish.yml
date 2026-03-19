@@ -1,0 +1,53 @@
+name: Build and Publish
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  prebuild:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        arch: [x64, arm64]
+        node: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build native addon
+        run: npm run build
+      
+      - name: Run tests
+        run: node test.js
+      
+      - name: Create prebuild
+        run: npm run prebuild
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-npm:
+    needs: prebuild
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      
+      - run: npm ci
+      
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
