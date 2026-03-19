@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "napi_version": "8"
+  },
   "targets": [
     {
       "target_name": "job_addon",
