@@ -21,6 +21,29 @@ const path = require("path");
  * job.close();
  */
 
+const PACKAGE_JSON = require("../package.json");
+const BINARY_NAME = PACKAGE_JSON.binary.module_name;
+
+function getNativeAddon() {
+  // Try to load prebuilt binary first using prebuild-install
+  const prebuildInstall = require("prebuild-install");
+
+  try {
+    const prebuiltPath = prebuildInstall({
+      pkg: PACKAGE_JSON,
+    });
+
+    if (prebuiltPath) {
+      return require(prebuiltPath);
+    }
+  } catch (e) {
+    // Fall through to bindings
+  }
+
+  // Fallback to bindings (for development)
+  return require("bindings")(BINARY_NAME);
+}
+
 class Job {
   constructor() {
     if (process.platform !== "win32") {
@@ -28,7 +51,7 @@ class Job {
     }
 
     // Load native addon
-    const native = require("bindings")("job_addon");
+    const native = getNativeAddon();
     this._addon = new native.Job();
   }
 
@@ -104,7 +127,15 @@ class Job {
 }
 
 // Export constants from native addon
-const native = process.platform === "win32" ? require("bindings")("job_addon") : null;
+let native = null;
+try {
+  if (process.platform === "win32") {
+    const addon = getNativeAddon();
+    native = addon;
+  }
+} catch (e) {
+  // Silent fail for constants
+}
 
 module.exports = {
   Job,

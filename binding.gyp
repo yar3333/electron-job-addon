@@ -1,7 +1,4 @@
 {
-  "variables": {
-    "napi_version": "8"
-  },
   "targets": [
     {
       "target_name": "job_addon",
@@ -12,7 +9,7 @@
             "src/JobAddon.cc"
           ],
           "include_dirs": [
-            "<!@(node -p \"require('node-addon-api').include\")",
+            "<!(node -p \"require('node-addon-api').include_dir\")",
             "include"
           ],
           "libraries": [
@@ -24,7 +21,6 @@
           "msvs_settings": {
             "VCCLCompilerTool": {
               "ExceptionHandling": 1,
-              "DebugInformationFormat": "OldStyle",
               "AdditionalOptions": ["/FS"]
             },
             "VCLinkerTool": {
@@ -38,19 +34,6 @@
             "_WIN32_WINNT=0x0A00"
           ]
         }]
-      ]
-    },
-    {
-      "target_name": "action_after_build",
-      "type": "none",
-      "dependencies": [ "job_addon" ],
-      "copies": [
-        {
-          "files": [
-            "<(PRODUCT_DIR)/job_addon.node"
-          ],
-          "destination": "./bin/<(OS)-<(target_arch)-<(napi_version)"
-        }
       ]
     }
   ]
