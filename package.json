@@ -1,6 +1,6 @@
 {
   "name": "electron-job-addon",
-  "version": "1.0.0",
+  "version": "1.0.11",
   "description": "Native addon for Windows Job Objects in Electron",
   "main": "js/index.js",
   "types": "js/index.d.ts",
@@ -23,6 +23,7 @@
     "js/",
     "src/",
     "include/",
+    "prebuilds/",
     "binding.gyp",
     "LICENSE",
     "README.md"
@@ -59,6 +60,7 @@
     "prebuild-install": "^7.1.2"
   },
   "devDependencies": {
+    "electron": "^41.0.3",
     "electron-rebuild": "^3.2.9",
     "node-gyp": "^10.0.0",
     "prebuild": "^13.0.0"
