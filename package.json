@@ -1,6 +1,6 @@
 {
   "name": "electron-job-addon",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Native addon for Windows Job Objects in Electron",
   "main": "js/index.js",
   "types": "js/index.d.ts",
