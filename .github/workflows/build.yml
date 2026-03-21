@@ -38,9 +38,11 @@ jobs:
       - name: Run tests
         run: node test.js
 
-  prebuild:
+  prebuild-and-publish:
     runs-on: windows-latest
     if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
+
+    environment: NPM
 
     steps:
       - uses: actions/checkout@v4
@@ -48,12 +50,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build prebuild for Electron x64
+      - name: Build prebuild for Electron 41 x64
         run: npm run prebuild:electron
 
       - name: Upload prebuild to release
@@ -63,23 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish-npm:
-    needs: prebuild
-    runs-on: windows-latest
-    if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
-
-    environment: NPM
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          registry-url: https://registry.npmjs.org/
-
-      - run: npm ci
-
-      - run: npm publish --access public
+      - name: Publish to npm (includes prebuilds)
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

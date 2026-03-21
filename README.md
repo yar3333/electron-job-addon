@@ -5,7 +5,7 @@ Native addon for working with Windows Job Objects from Electron main process.
 ## 📁 Project Structure
 
 ```
-ElectronJobs/
+electron-job-addon/
 ├── binding.gyp              # node-gyp build configuration
 ├── package.json             # Dependencies and scripts
 ├── include/
@@ -16,11 +16,23 @@ ElectronJobs/
 ├── js/
 │   ├── index.js             # JavaScript wrapper
 │   └── index.d.ts           # TypeScript definitions
+├── prebuilds/               # Prebuilt binaries (included in npm package)
 └── examples/
     └── usage.js             # Usage examples
 ```
 
-## 🚀 Installation and Build
+## 📦 Installation
+
+```bash
+# Install from npm (prebuilt binary included - no build required!)
+npm install electron-job-addon
+```
+
+**Note:** Prebuilt binary for Electron 41 (ABI v146) is included in the npm package. No compilation needed!
+
+## 🚀 Build from Source (Development Only)
+
+If you need to rebuild the native addon (e.g., for a different Electron version):
 
 ```bash
 # Install dependencies
@@ -31,6 +43,9 @@ npm run build
 
 # Rebuild (clean + build)
 npm run rebuild
+
+# Rebuild for specific Electron version
+npm run rebuild:electron
 ```
 
 ## ✅ Testing
@@ -109,7 +124,7 @@ job.setLimitFlags(flags);
 
 #### `constructor()`
 
-Creates a Job wrapper instance.
+Creates a Job-wrapper instance.
 
 #### `create(name?: string): boolean`
 
@@ -162,10 +177,9 @@ Sets limit flags (bitmask).
 ## 🔧 Requirements
 
 - Windows 10 or higher
-- Node.js 16+
-- Electron 15+
-- node-gyp
-- Visual Studio Build Tools (C++)
+- Node.js 18+
+- Electron 41+ (prebuilt for ABI v146)
+- Visual Studio Build Tools (C++) — **only for building from source**
 
 ## 📝 Notes
 
@@ -173,10 +187,19 @@ Sets limit flags (bitmask).
 
 2. **Run as Administrator**: Some Job Objects operations may require administrator privileges.
 
-3. **Electron Integration**: After building, you need to rebuild the addon for your Electron version:
+3. **Prebuilt Binary**: The npm package includes a prebuilt binary for Electron 41 (ABI v146). No compilation is required during installation.
+
+4. **Building from Source**: If you need to build for a different Electron version:
+
    ```bash
-   set PYTHON=c:\Server\python-3.11\python.exe && npx electron-rebuild -v 41.0.3
+   # Rebuild for your current Electron version
+   npm run rebuild:electron
+
+   # Or manually with prebuild
+   npx prebuild --runtime electron --target <ABI_VERSION> --arch x64
    ```
+
+5. **Using with Angular + Electron**: This addon works in the Electron main process only. For Angular apps in Electron, use IPC to communicate between renderer and main process.
 
 ## 🔗 Links
 
