@@ -9,7 +9,7 @@
     "build": "node-gyp configure && node-gyp build",
     "rebuild": "npm run clean && npm run build",
     "rebuild:electron": "npm run clean && electron-rebuild -v 41.0.3",
-    "prebuild:electron": "npm run clean && prebuild --runtime electron --target 146 --arch x64 --strip"
+    "prebuild:electron": "npm run clean && prebuild --runtime electron --target 41.0.3 --arch x64 --strip"
   },
   "binary": {
     "napi_versions": [

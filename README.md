@@ -28,7 +28,7 @@ electron-job-addon/
 npm install electron-job-addon
 ```
 
-**Note:** Prebuilt binary for Electron 41 (ABI v146) is included in the npm package. No compilation needed!
+**Note:** Prebuilt binary for Electron 41 is included in the npm package. No compilation needed!
 
 ## 🚀 Build from Source (Development Only)
 
@@ -178,7 +178,7 @@ Sets limit flags (bitmask).
 
 - Windows 10 or higher
 - Node.js 18+
-- Electron 41+ (prebuilt for ABI v146)
+- Electron 41+
 - Visual Studio Build Tools (C++) — **only for building from source**
 
 ## 📝 Notes
@@ -187,7 +187,7 @@ Sets limit flags (bitmask).
 
 2. **Run as Administrator**: Some Job Objects operations may require administrator privileges.
 
-3. **Prebuilt Binary**: The npm package includes a prebuilt binary for Electron 41 (ABI v146). No compilation is required during installation.
+3. **Prebuilt Binary**: The npm package includes a prebuilt binary for Electron 41. No compilation is required during installation.
 
 4. **Building from Source**: If you need to build for a different Electron version:
 
