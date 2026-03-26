@@ -1,36 +1,4 @@
-# Dependencies
 node_modules/
-
-# Build artifacts (node-gyp)
 build/
-Release/
-Debug/
-out/
-*.obj
-*.pdb
-*.exp
-*.lib
-
-# Prebuilt binaries (stored in GitHub Releases)
 prebuilds/
-
-# Logs
-*.log
-npm-debug.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE
 .vscode/
-.idea/
-*.swp
-*.swo
-
-# npm package
-*.tgz
-
-# Python
-__pycache__/
-*.pyc
